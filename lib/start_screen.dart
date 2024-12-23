@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/questions_screen.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
-
+  const StartScreen(this.startQuiz, {super.key});
+  final void Function() startQuiz;
   @override
   Widget build(context) {
     return Center(
@@ -26,12 +26,7 @@ class StartScreen extends StatelessWidget {
           height: 30,
         ),
         OutlinedButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const QuestionsScreen()),
-            );
-          },
+          onPressed: startQuiz,
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.white,
           ),
