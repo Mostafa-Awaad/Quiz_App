@@ -11,6 +11,7 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   //Defining a nullable widget to hold the active screen
+  //Widget? activeScreen;
   var activeScreen = 'start-screen';
 
   // @override
