@@ -43,7 +43,7 @@ class _QuestionScreenState extends State<QuestionsScreen> {
               Text(
                 currentQuestion.questionText,
                 style: GoogleFonts.ptSerif(
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 201, 153, 251),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
