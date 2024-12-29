@@ -4,7 +4,9 @@ import 'package:quiz_app/data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+  // Declaring onSelectAnswer argument to choose and save answer.
+  final void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -16,7 +18,8 @@ class _QuestionScreenState extends State<QuestionsScreen> {
   // Defining a variable for current question index
   var currentIndex = 0;
   //Adding method for incrementing currentIndex of answerQuestion
-  void answerQuestion() {
+  void answerQuestion(String answer) {
+    widget.onSelectAnswer(answer);
     setState(() {
       currentIndex++;
     });
@@ -53,7 +56,12 @@ class _QuestionScreenState extends State<QuestionsScreen> {
               // Mapping list of the questionAnswers to a list of AnswerButton
               // Mapping does not change in the list content, it yields another copy
               ...currentQuestion.getShuffled().map((answer) {
-                return (AnswerButton(buttonText: answer, onTap: answerQuestion));
+                return (AnswerButton(
+                  buttonText: answer,
+                  onTap: () {
+                    answerQuestion(answer);
+                  },
+                ));
               }),
             ],
           ),
