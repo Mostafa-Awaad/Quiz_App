@@ -55,6 +55,7 @@ class _QuestionScreenState extends State<QuestionsScreen> {
               const SizedBox(height: 30),
               // Mapping list of the questionAnswers to a list of AnswerButton
               // Mapping does not change in the list content, it yields another copy
+              //Using the spread operator (...), because you want to show list items as one item
               ...currentQuestion.getShuffled().map((answer) {
                 return (AnswerButton(
                   buttonText: answer,
