@@ -16,12 +16,12 @@ class _QuizState extends State<Quiz> {
   //Widget? activeScreen;
   var activeScreen = 'start-screen';
   // Declaring a list to hold the examiner selected answers;
-  List<String> selectedAnswers = [];
+  List<String> _selectedAnswers = [];
 
   void chooseAnswer(String answer)
   {
-    selectedAnswers.add(answer);
-    if (selectedAnswers.length == questions.length){
+    _selectedAnswers.add(answer);
+    if (_selectedAnswers.length == questions.length){
       setState ((){
         activeScreen = 'results-screen';
         //selectedAnswers = [];
@@ -44,6 +44,14 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void restartQuiz() {
+    setState(() {
+      //Switching activeScreen to QuestionsScreen
+      _selectedAnswers = [];
+      activeScreen = 'questions-screen';
+    });
+  }
+
   @override
   Widget build(context) {
     Widget? widgetScreen;
@@ -53,7 +61,7 @@ class _QuizState extends State<Quiz> {
       widgetScreen = QuestionsScreen(onSelectAnswer: chooseAnswer);
     }
     else if (activeScreen == 'results-screen') {
-      widgetScreen = ResultsScreen(chosenAnswers: selectedAnswers,);
+      widgetScreen = ResultsScreen(chosenAnswers: _selectedAnswers, restartQuiz: restartQuiz,);
     }
     return MaterialApp(
       home: Scaffold(
@@ -62,7 +70,7 @@ class _QuizState extends State<Quiz> {
             gradient: LinearGradient(
               colors: [
                 Color.fromARGB(255, 103, 58, 183),
-                Color.fromARGB(255, 156, 39, 176)
+                Color.fromARGB(255, 103, 39, 176)
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
