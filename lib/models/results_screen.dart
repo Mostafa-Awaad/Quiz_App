@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/data/questions.dart';
+import 'package:quiz_app/questions_summary.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key, required this.chosenAnswers});
+  const ResultsScreen({super.key, required this.chosenAnswers, required this.restartQuiz});
   final List<String> chosenAnswers;
-
+  final void Function () restartQuiz;
   // Adding method for accessing current question's index, question, correct_answer, user_answer
-  // To give feedback to the examinee
-  List<Map<String, Object>> getSummaryData() {
+  // To give feedback to the examinee using getter method
+  List<Map<String, Object>> get summaryData {
     List<Map<String, Object>> summary = [];
 
     for (var i = 0; i < chosenAnswers.length; i++) {
@@ -24,6 +25,10 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final totalQuestionNum = questions.length;
+    final correctAnsweredQuestion = summaryData.where((data){
+      return (data['user_answer'] == data['correct_answer']);
+    }).length;
     // TODO: implement build
     return SizedBox(
       width: double.infinity,
@@ -34,7 +39,7 @@ class ResultsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "You have answered X correct questions out of Y questions",
+              "You answered $correctAnsweredQuestion out of $totalQuestionNum questions correctly!",
               style: GoogleFonts.ptSerif(
                 color: const Color.fromARGB(255, 201, 153, 251),
                 fontSize: 24,
@@ -43,23 +48,17 @@ class ResultsScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
-            Text(
-              "Answers",
-              style: GoogleFonts.ptSerif(
-                color: const Color.fromARGB(255, 201, 153, 251),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
+            QuestionsSummary(summaryData),
             const SizedBox(height: 30),
-            TextButton(
-              onPressed: () {},
-              child: Text(
+            TextButton.icon(
+              onPressed: restartQuiz,
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              icon: const Icon(Icons.refresh),
+              label: Text(
                 'Restart Quiz!',
                 style: GoogleFonts.ptSerif(
-                  color: const Color.fromARGB(255, 201, 153, 251),
-                  fontSize: 24,
+                  color: const Color.fromARGB(255, 248, 247, 249),
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
